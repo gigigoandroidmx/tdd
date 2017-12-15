@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
+package com.gigigoandroidmx.kmvp;
 
-package com.gigigoandroidmx.people;
+import org.junit.Test;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import static org.junit.Assert.*;
 
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+/**
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+public class ExampleUnitTest {
+    @Test
+    public void addition_isCorrect() throws Exception {
+        assertEquals(4, 2 + 2);
     }
 }

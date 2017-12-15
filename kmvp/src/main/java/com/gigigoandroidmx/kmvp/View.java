@@ -14,4 +14,13 @@
  * limitations under the License.
  */
 
-include ':app', ':kmvp'
+package com.gigigoandroidmx.kmvp;
+
+/**
+ * Defines ...
+ *
+ * @author Juan Godinez Vera - December 13, 2017
+ * @version 0.0.1
+ * @since 0.0.1
+ */
+public interface View { }

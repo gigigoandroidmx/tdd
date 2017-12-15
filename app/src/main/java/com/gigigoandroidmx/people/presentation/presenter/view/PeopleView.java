@@ -14,4 +14,21 @@
  * limitations under the License.
  */
 
-include ':app', ':kmvp'
+package com.gigigoandroidmx.people.presentation.presenter.view;
+
+import com.gigigoandroidmx.people.data.model.People;
+
+import java.util.List;
+
+/**
+ * Defines ...
+ *
+ * @author Juan Godinez Vera - December 13, 2017
+ * @version 0.0.1
+ * @since 0.0.1
+ */
+public interface PeopleView /*extends com.gigigoandroidmx.*/ {
+    void onFetchPeopleSuccess(List<People> people);
+    void showProgress(boolean active);
+    void showError(Throwable exception);
+}

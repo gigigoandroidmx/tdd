@@ -1,0 +1,14 @@
+ext {
+    people = [
+            versionCode :                                           1,
+            versionName :                                           "0.0.1",
+            versionCodeRelease :                                    1,
+            versionNameRelease :                                    "0.0.1",
+            applicationId :                                         "com.gigigoandroidmx.people",
+            appName :                                               "People",
+
+            host :                                                  [debug:             "https://reqres.in",
+                                                                     production:        "https://reqres.in",
+                                                                     release:           "https://reqres.in"]
+    ]
+}

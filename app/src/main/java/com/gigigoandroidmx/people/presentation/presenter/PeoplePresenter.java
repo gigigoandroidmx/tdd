@@ -14,4 +14,14 @@
  * limitations under the License.
  */
 
-include ':app', ':kmvp'
+package com.gigigoandroidmx.people.presentation.presenter;
+
+/**
+ * Defines ...
+ *
+ * @author Juan Godinez Vera - December 13, 2017
+ * @version 0.0.1
+ * @since 0.0.1
+ */
+public class PeoplePresenter {
+}

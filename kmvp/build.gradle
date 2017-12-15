@@ -1,38 +1,47 @@
-apply plugin: 'com.android.application'
+/*
+ * Copyright (c) 2017 Gigigo Android Development Team México
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-def HOST = "HOST"
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion parent.ext.COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId "com.gigigoandroidmx.people"
         minSdkVersion parent.ext.MIN_SDK_VERSION
         targetSdkVersion parent.ext.TARGET_SDK_VERSION
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation parent.ext.libraries.design
     implementation parent.ext.libraries.appcompat
-    implementation parent.ext.libraries.recyclerview
-    implementation parent.ext.libraries.support
-    implementation parent.ext.libraries.constraintlayout
-
-    implementation parent.ext.libraries.gsonconverter
-
-    implementation parent.ext.modules.kmvp
 
     testImplementation parent.ext.testing.junit
     testImplementation parent.ext.testing.runner
