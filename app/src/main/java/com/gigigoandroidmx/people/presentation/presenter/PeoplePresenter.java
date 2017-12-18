@@ -16,6 +16,9 @@
 
 package com.gigigoandroidmx.people.presentation.presenter;
 
+import com.gigigoandroidmx.kmvp.BasePresenter;
+import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
+
 /**
  * Defines ...
  *
@@ -23,5 +26,30 @@ package com.gigigoandroidmx.people.presentation.presenter;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class PeoplePresenter {
+public class PeoplePresenter
+        extends BasePresenter<PeopleView> {
+
+    private static final int MAX_LOGIN_ATTEMPT = 3;
+
+    private int loginAttempt;
+
+    public int incrementLoginAttempt() {
+        loginAttempt += 1;
+        return loginAttempt;
+    }
+
+    public boolean isLoginAttemptExceeded() {
+        return loginAttempt >= MAX_LOGIN_ATTEMPT;
+    }
+
+    public boolean isLoginSuccess(String username, String password) {
+        if(isLoginAttemptExceeded()) return false;
+
+        if(username.equals("peter@klaven") && password.equals("cityslicka")) return true;
+
+        // increment login attempt if it's fail
+        incrementLoginAttempt();
+
+        return false;
+    }
 }

@@ -24,39 +24,80 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gigigoandroidmx.kmvp.BaseFragment;
 import com.gigigoandroidmx.people.R;
+import com.gigigoandroidmx.people.data.model.People;
+import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
+
+import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment
-        extends Fragment {
+        extends BaseFragment implements PeopleView {
 
+    //region BaseFragment members
 
-    public MainFragment() {
-        // Required empty public constructor
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.fragment_main;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onInitializeComponents() {
+
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main, container, false);
+    protected void onInitializeMembers() {
+
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onBindView(View root) {
+
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    protected void onUnbindView() {
+
     }
+
+    //endregion
+
+    //region PeopleView members
+
+    @Override
+    public void showErrorMessageForUserNameOrPassword() {
+
+    }
+
+    @Override
+    public void showErrorMessageForMaxLoginAttempt() {
+
+    }
+
+    @Override
+    public void showMessageForLoginSuccess() {
+
+    }
+
+    @Override
+    public void onFetchPeopleSuccess(List<People> people) {
+
+    }
+
+    @Override
+    public void showProgress(boolean active) {
+
+    }
+
+    @Override
+    public void showError(Throwable exception) {
+
+    }
+
+    //endregion
 }

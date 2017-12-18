@@ -16,6 +16,7 @@
 
 package com.gigigoandroidmx.people.presentation.presenter.view;
 
+import com.gigigoandroidmx.kmvp.View;
 import com.gigigoandroidmx.people.data.model.People;
 
 import java.util.List;
@@ -27,7 +28,13 @@ import java.util.List;
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface PeopleView /*extends com.gigigoandroidmx.*/ {
+public interface PeopleView
+        extends View {
+
+    void showErrorMessageForUserNameOrPassword();
+    void showErrorMessageForMaxLoginAttempt();
+    void showMessageForLoginSuccess();
+
     void onFetchPeopleSuccess(List<People> people);
     void showProgress(boolean active);
     void showError(Throwable exception);
