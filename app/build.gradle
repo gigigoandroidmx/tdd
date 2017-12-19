@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 
 def HOST = "HOST"
 
@@ -23,6 +24,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // App's dependencies, including test
+    implementation parent.ext.libraries.annotations
+//    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    })
 
     implementation parent.ext.libraries.design
     implementation parent.ext.libraries.appcompat
@@ -32,11 +38,16 @@ dependencies {
 
     implementation parent.ext.libraries.gsonconverter
 
+    implementation parent.ext.libraries.butterknife
+    annotationProcessor parent.ext.libraries.butterknifecompiler
+
     implementation parent.ext.modules.kmvp
 
     testImplementation parent.ext.testing.junit
+    testImplementation(parent.ext.testing.espresso) {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
     testImplementation parent.ext.testing.runner
-    testImplementation parent.ext.testing.espresso
     testImplementation parent.ext.testing.mockito
 
     androidTestCompile parent.ext.testing.junit

@@ -28,7 +28,7 @@ ext{
     final ESPRESSO_VERSION = '3.0.1'
     final MOCKITO_VERSION = '2.13.0'
 
-    final SUPPORT_VERSION = '26.1.0'
+    final SUPPORT_VERSION = '26.1.0' // 27.0.2
     final CONSTRAINT_LAYOUT_VERSION = '1.0.2'
 
     final GSON_VERSION = '2.3.0'
@@ -36,7 +36,7 @@ ext{
 //    retrofitVersion = '2.2.0'
 //    okhttpVersion = '3.7.0'
 //    logginginterceptorVersion = '2.0.0'
-//    butterknifeVersion = '8.4.0'
+    BUTTERKNIFE_VERSION = '8.4.0'
 
     //Packages
    final JUNIT_PACKAGE = 'junit'
@@ -49,23 +49,24 @@ ext{
    final RETROFIT_PACKAGE = 'com.squareup.retrofit2'
 //   final OKHTTP_PACKAGE = 'com.squareup.okhttp3'
 //   final LOGGING_INTERCEPTOR_PACKAGE  = 'com.github.ihsanbal'
-//   final BUTTERKNIFE_PACKAGE = 'com.jakewharton'
+   final BUTTERKNIFE_PACKAGE = 'com.jakewharton'
 
     //Libraries
     libraries = [
+            annotations : buildDependency(SUPPORT_PACKAGE, 'support-annotations', SUPPORT_VERSION),
             design : buildDependency(SUPPORT_PACKAGE, 'design', SUPPORT_VERSION),
             appcompat : buildDependency(SUPPORT_PACKAGE, 'appcompat-v7', SUPPORT_VERSION),
             recyclerview : buildDependency(SUPPORT_PACKAGE, 'recyclerview-v7', SUPPORT_VERSION),
             support : buildDependency(SUPPORT_PACKAGE, 'support-v4', SUPPORT_VERSION),
             constraintlayout : buildDependency(SUPPORT_CONSTRAINT_PACKAGE, 'constraint-layout', CONSTRAINT_LAYOUT_VERSION),
 
-            gsonconverter : buildDependency(RETROFIT_PACKAGE, 'converter-gson', GSON_VERSION)
+            gsonconverter : buildDependency(RETROFIT_PACKAGE, 'converter-gson', GSON_VERSION),
 
 //            retrofit :                  buildDependency(retrofitPackage, 'retrofit', retrofitVersion),
 //            okhttp :                    buildDependency(okhttpPackage, 'logging-interceptor', okhttpVersion),
 //            logginginterceptor :        buildDependency(logginginterceptorPackage, 'LoggingInterceptor', logginginterceptorVersion),
-//            butterknife :               buildDependency(butterknifePackage, 'butterknife', butterknifeVersion),
-//            butterknifecompiler :       buildDependency(butterknifePackage, 'butterknife-compiler', butterknifeVersion),
+            butterknife : buildDependency(BUTTERKNIFE_PACKAGE, 'butterknife', BUTTERKNIFE_VERSION),
+            butterknifecompiler : buildDependency(BUTTERKNIFE_PACKAGE, 'butterknife-compiler', BUTTERKNIFE_VERSION),
     ]
 
     //Testing

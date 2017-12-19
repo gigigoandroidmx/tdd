@@ -32,6 +32,11 @@ import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,33 +45,32 @@ public class MainFragment
         extends MvpFragment<PeopleView, PeoplePresenter>
         implements PeopleView {
 
-    private EditText userName;
-    private EditText password;
-    private Button login;
+    private Unbinder unbinder;
+
+    @BindView(R.id.edit_user_name)
+    EditText userName;
+    @BindView(R.id.edit_password)
+    EditText password;
+    @BindView(R.id.btn_login)
+    Button login;
+
+    @OnClick(R.id.btn_login)
+    void doLogin() {
+        presenter.doLogin(String.valueOf(userName.getText()),
+                String.valueOf(password.getText()));
+    }
 
     //region BaseFragment members
 
     @Override
-    protected int getLayoutResourceId() {
+    protected int getLayoutId() {
         return R.layout.fragment_main;
     }
 
     @Override
-    protected void onInitializeComponents() {
-        userName = getView().findViewById(R.id.edit_user_name);
-        password = getView().findViewById(R.id.edit_password);
-        login = getView().findViewById(R.id.btn_login);
-
+    protected void onInitializeUIComponents() {
         userName.setText("peter@klaven");
         password.setText("cityslicka");
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.doLogin(String.valueOf(userName.getText()),
-                        String.valueOf(password.getText()));
-            }
-        });
     }
 
     @Override
@@ -76,12 +80,12 @@ public class MainFragment
 
     @Override
     protected void onBindView(View root) {
-
+        unbinder = ButterKnife.bind(this, root);
     }
 
     @Override
     protected void onUnbindView() {
-
+        if(null != unbinder) unbinder.unbind();
     }
 
     //endregion

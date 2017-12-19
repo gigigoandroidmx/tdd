@@ -37,13 +37,14 @@ public abstract class BaseFragment
 
     protected Context context;
 
-    protected void onGetArguments(Bundle arguments) {}
     @LayoutRes
-    protected abstract int getLayoutResourceId();
-    protected abstract void onInitializeComponents();
+    protected abstract int getLayoutId();
+    protected abstract void onInitializeUIComponents();
     protected abstract void onInitializeMembers();
     protected abstract void onBindView(View root);
     protected abstract void onUnbindView();
+
+    protected void onRestoreExtras(Bundle arguments) { }
 
     @Override
     public void onAttach(Context context) {
@@ -55,8 +56,8 @@ public abstract class BaseFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            onGetArguments(getArguments());
+        if (null != getArguments()) {
+            onRestoreExtras(getArguments());
         }
     }
 
@@ -64,7 +65,7 @@ public abstract class BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(getLayoutResourceId(), container, false);
+        View root = inflater.inflate(getLayoutId(), container, false);
         onBindView(root);
         return root;
     }
@@ -72,7 +73,7 @@ public abstract class BaseFragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onInitializeComponents();
+        onInitializeUIComponents();
         onInitializeMembers();
     }
 
