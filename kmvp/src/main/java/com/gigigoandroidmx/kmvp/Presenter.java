@@ -37,5 +37,7 @@ public interface Presenter<V extends View> {
 
     void onStop();
 
+    void onDestroy();
+
     void handleError(Throwable exception);
 }

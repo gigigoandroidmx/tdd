@@ -58,14 +58,17 @@ public abstract class BasePresenter<V extends View>
     public void onStop() { }
 
     @Override
+    public void onDestroy() { }
+
+    @Override
     public void handleError(Throwable exception) { }
 
     public V getView() {
-        return viewReference == null ? null : viewReference.get();
+        return null == viewReference ? null : viewReference.get();
     }
 
     public boolean isViewAttached() {
-        return getView() != null;
+        return null != getView();
     }
 
     public void checkViewAttached() {

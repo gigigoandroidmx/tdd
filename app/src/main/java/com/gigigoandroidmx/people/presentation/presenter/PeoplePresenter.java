@@ -17,7 +17,12 @@
 package com.gigigoandroidmx.people.presentation.presenter;
 
 import com.gigigoandroidmx.kmvp.BasePresenter;
+import com.gigigoandroidmx.kmvp.UseCaseObserver;
+import com.gigigoandroidmx.people.domain.model.User;
+import com.gigigoandroidmx.people.domain.usecase.GetUsers;
 import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
+
+import java.util.List;
 
 /**
  * Defines ...
@@ -32,6 +37,12 @@ public class PeoplePresenter
     private static final int MAX_LOGIN_ATTEMPT = 3;
 
     private int loginAttempt;
+
+    private final GetUsers getUsers;
+
+    public PeoplePresenter(GetUsers getUsers) {
+        this.getUsers = getUsers;
+    }
 
     public int incrementLoginAttempt() {
         loginAttempt += 1;
@@ -58,5 +69,38 @@ public class PeoplePresenter
         // increment login attempt if it's fail
         incrementLoginAttempt();
         getView().showErrorMessageForUserNameOrPassword();
+    }
+
+    public void getUsers() {
+        getUsers.execute(new UserListObserver());
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(null != getUsers) getUsers.dispose();
+    }
+
+    private final class UserListObserver
+            extends UseCaseObserver<List<User>> {
+
+        @Override
+        public void onComplete() {
+            super.onComplete();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+        }
+
+        @Override
+        public void onNext(List<User> users) {
+            super.onNext(users);
+
+            getView().onFetchPeopleSuccess(users);
+        }
     }
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.data.model;
+package com.gigigoandroidmx.people.data.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -44,7 +44,7 @@ public class Collect {
     private Integer totalPages;
     @SerializedName("data")
     @Expose
-    private List<People> data = null;
+    private List<UserEntity> data = null;
 
     public Integer getPage() {
         return page;
@@ -78,11 +78,11 @@ public class Collect {
         this.totalPages = totalPages;
     }
 
-    public List<People> getData() {
+    public List<UserEntity> getData() {
         return data;
     }
 
-    public void setData(List<People> data) {
+    public void setData(List<UserEntity> data) {
         this.data = data;
     }
 

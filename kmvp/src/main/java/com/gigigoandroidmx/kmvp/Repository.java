@@ -14,28 +14,13 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.presentation.presenter.view;
-
-import com.gigigoandroidmx.kmvp.View;
-import com.gigigoandroidmx.people.data.entity.UserEntity;
-
-import java.util.List;
+package com.gigigoandroidmx.kmvp;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface PeopleView
-        extends View {
-
-    void showErrorMessageForUserNameOrPassword();
-    void showErrorMessageForMaxLoginAttempt();
-    void showMessageForLoginSuccess();
-
-    void onFetchPeopleSuccess(List<UserEntity> people);
-    void showProgress(boolean active);
-    void showError(Throwable exception);
-}
+public interface Repository { }

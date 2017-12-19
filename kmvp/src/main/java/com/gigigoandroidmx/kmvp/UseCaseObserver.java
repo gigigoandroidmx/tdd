@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.presentation.presenter.view;
+package com.gigigoandroidmx.kmvp;
 
-import com.gigigoandroidmx.kmvp.View;
-import com.gigigoandroidmx.people.data.entity.UserEntity;
-
-import java.util.List;
+import io.reactivex.observers.DisposableObserver;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface PeopleView
-        extends View {
+public class UseCaseObserver<T>
+        extends DisposableObserver<T> {
 
-    void showErrorMessageForUserNameOrPassword();
-    void showErrorMessageForMaxLoginAttempt();
-    void showMessageForLoginSuccess();
+    @Override
+    public void onComplete() { }
 
-    void onFetchPeopleSuccess(List<UserEntity> people);
-    void showProgress(boolean active);
-    void showError(Throwable exception);
+    @Override
+    public void onError(Throwable e) { }
+
+    @Override
+    public void onNext(T t) { }
 }

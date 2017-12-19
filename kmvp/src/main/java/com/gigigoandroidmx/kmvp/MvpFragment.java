@@ -37,9 +37,9 @@ public abstract class MvpFragment<V extends View, P extends Presenter<V>>
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(presenter == null) presenter = createPresenter();
+        if(null == presenter) presenter = createPresenter();
 
-        if(presenter == null) throw new NullPointerException("The presenter must not be null.");
+        if(null == presenter) throw new NullPointerException("The presenter must not be null.");
 
         if(!(this instanceof View))
             throw new MvpFragmentNotImplementedException();
@@ -51,7 +51,7 @@ public abstract class MvpFragment<V extends View, P extends Presenter<V>>
     public void onDestroy() {
         super.onDestroy();
 
-        if(presenter != null) presenter.detachView();
+        if(null != presenter) presenter.detachView();
     }
 
     public static class MvpFragmentNotImplementedException

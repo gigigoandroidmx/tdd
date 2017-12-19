@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.data.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.gigigoandroidmx.people.domain.model;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public class People {
-
-    @SerializedName("id")
-    @Expose
+public class User {
     private Integer id;
-    @SerializedName("first_name")
-    @Expose
-    private String firstName;
-    @SerializedName("last_name")
-    @Expose
-    private String lastName;
-    @SerializedName("avatar")
-    @Expose
+    private String name;
     private String avatar;
 
     public Integer getId() {
@@ -49,20 +36,12 @@ public class People {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getAvatar() {
@@ -72,5 +51,4 @@ public class People {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-
 }

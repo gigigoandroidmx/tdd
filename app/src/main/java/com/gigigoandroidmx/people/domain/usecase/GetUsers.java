@@ -14,28 +14,34 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.presentation.presenter.view;
+package com.gigigoandroidmx.people.domain.usecase;
 
-import com.gigigoandroidmx.kmvp.View;
-import com.gigigoandroidmx.people.data.entity.UserEntity;
+import com.gigigoandroidmx.kmvp.UseCase;
+import com.gigigoandroidmx.people.data.repository.UserRepository;
+import com.gigigoandroidmx.people.domain.model.User;
 
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface PeopleView
-        extends View {
+public class GetUsers
+        extends UseCase<List<User>, UserRepository> {
 
-    void showErrorMessageForUserNameOrPassword();
-    void showErrorMessageForMaxLoginAttempt();
-    void showMessageForLoginSuccess();
+    public GetUsers(Scheduler executorThread,
+                    Scheduler uiThread) {
+        super(executorThread, uiThread);
+    }
 
-    void onFetchPeopleSuccess(List<UserEntity> people);
-    void showProgress(boolean active);
-    void showError(Throwable exception);
+    @Override
+    protected Observable<List<User>> createObservableUseCase() {
+        return getRepository().getUsers();
+    }
 }

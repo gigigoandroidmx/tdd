@@ -16,12 +16,16 @@
 
 package com.gigigoandroidmx.people.presentation.presenter;
 
+import com.gigigoandroidmx.people.domain.usecase.GetUsers;
 import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.mockito.Mockito.*;
 
@@ -43,7 +47,8 @@ public class PeoplePresenterTest {
     @Test
     public void checkIfLoginAttemptIsExceeded() {
         PeopleView peopleView = mock(PeopleView.class);
-        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(), AndroidSchedulers.mainThread());
+        PeoplePresenter peoplePresenter = new PeoplePresenter(getUsers);
         peoplePresenter.attachView(peopleView);
 
         Assert.assertEquals(1, peoplePresenter.incrementLoginAttempt());
@@ -55,7 +60,8 @@ public class PeoplePresenterTest {
     @Test
     public void checkIfLoginAttemptIsNotExceeded() {
         PeopleView peopleView = mock(PeopleView.class);
-        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(), AndroidSchedulers.mainThread());
+        PeoplePresenter peoplePresenter = new PeoplePresenter(getUsers);
         peoplePresenter.attachView(peopleView);
         Assert.assertTrue(peoplePresenter.isLoginAttemptExceeded());
     }
@@ -63,7 +69,8 @@ public class PeoplePresenterTest {
     @Test
     public void checkIfUsernameAndPasswordIsCorrect() {
         PeopleView peopleView = mock(PeopleView.class);
-        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(), AndroidSchedulers.mainThread());
+        PeoplePresenter peoplePresenter = new PeoplePresenter(getUsers);
         peoplePresenter.attachView(peopleView);
         peoplePresenter.doLogin("peter@klaven", "cityslicka");
         verify(peopleView).showMessageForLoginSuccess();
@@ -72,7 +79,8 @@ public class PeoplePresenterTest {
     @Test
     public void checkIfUsernameAndPasswordIsIncorrect() {
         PeopleView peopleView = mock(PeopleView.class);
-        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(), AndroidSchedulers.mainThread());
+        PeoplePresenter peoplePresenter = new PeoplePresenter(getUsers);
         peoplePresenter.attachView(peopleView);
         peoplePresenter.doLogin("qwerty", "cityslicka");
         verify(peopleView).showErrorMessageForUserNameOrPassword();
@@ -81,7 +89,8 @@ public class PeoplePresenterTest {
     @Test
     public void checkIfLoginAttemptIsExceededAndViewMethodCalled() {
         PeopleView peopleView = mock(PeopleView.class);
-        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(), AndroidSchedulers.mainThread());
+        PeoplePresenter peoplePresenter = new PeoplePresenter(getUsers);
         peoplePresenter.attachView(peopleView);
 
         peoplePresenter.doLogin("qwerty", "cityslicka");

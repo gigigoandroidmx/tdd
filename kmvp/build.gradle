@@ -43,6 +43,10 @@ dependencies {
 
     implementation parent.ext.libraries.appcompat
 
+
+    implementation parent.ext.libraries.rxandroid
+    implementation parent.ext.libraries.rxjava
+
     testImplementation parent.ext.testing.junit
     testImplementation parent.ext.testing.runner
     testImplementation parent.ext.testing.espresso

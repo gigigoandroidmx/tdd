@@ -23,10 +23,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.gigigoandroidmx.kmvp.BaseFragment;
 import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
-import com.gigigoandroidmx.people.data.model.People;
+import com.gigigoandroidmx.people.data.entity.UserEntity;
+import com.gigigoandroidmx.people.data.repository.UserRepository;
+import com.gigigoandroidmx.people.domain.usecase.GetUsers;
 import com.gigigoandroidmx.people.presentation.presenter.PeoplePresenter;
 import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
 
@@ -36,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -74,9 +77,7 @@ public class MainFragment
     }
 
     @Override
-    protected void onInitializeMembers() {
-
-    }
+    protected void onInitializeMembers() {  }
 
     @Override
     protected void onBindView(View root) {
@@ -95,7 +96,11 @@ public class MainFragment
 
     @Override
     protected PeoplePresenter createPresenter() {
-        return new PeoplePresenter();
+        GetUsers getUsers = new GetUsers(Schedulers.io(),
+                AndroidSchedulers.mainThread());
+        UserRepository userRepository = new UserRepository();
+        getUsers.setRepository(userRepository);
+        return new PeoplePresenter(getUsers);
     }
 
     //endregion
@@ -127,7 +132,7 @@ public class MainFragment
     }
 
     @Override
-    public void onFetchPeopleSuccess(List<People> people) {
+    public void onFetchPeopleSuccess(List<UserEntity> people) {
 
     }
 
