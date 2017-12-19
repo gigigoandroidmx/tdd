@@ -37,4 +37,7 @@ dependencies {
     testImplementation parent.ext.testing.junit
     testImplementation parent.ext.testing.runner
     testImplementation parent.ext.testing.espresso
+    testImplementation parent.ext.testing.mockito
+
+    androidTestCompile parent.ext.testing.junit
 }

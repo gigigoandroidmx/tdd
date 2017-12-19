@@ -16,12 +16,14 @@
 
 package com.gigigoandroidmx.people.presentation.presenter;
 
+import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Defines ...
@@ -33,16 +35,17 @@ import static org.junit.Assert.*;
 public class PeoplePresenterTest {
 
     @Before
-    public void setUp() throws Exception {
-    }
+    public void setUp() throws Exception { }
 
     @After
-    public void tearDown() throws Exception {
-    }
+    public void tearDown() throws Exception { }
 
     @Test
     public void checkIfLoginAttemptIsExceeded() {
+        PeopleView peopleView = mock(PeopleView.class);
         PeoplePresenter peoplePresenter = new PeoplePresenter();
+        peoplePresenter.attachView(peopleView);
+
         Assert.assertEquals(1, peoplePresenter.incrementLoginAttempt());
         Assert.assertEquals(2, peoplePresenter.incrementLoginAttempt());
         Assert.assertEquals(3, peoplePresenter.incrementLoginAttempt());
@@ -50,10 +53,43 @@ public class PeoplePresenterTest {
     }
 
     @Test
-    public void checkIfLoginSuccess() {
+    public void checkIfLoginAttemptIsNotExceeded() {
+        PeopleView peopleView = mock(PeopleView.class);
         PeoplePresenter peoplePresenter = new PeoplePresenter();
-        Assert.assertTrue(peoplePresenter.isLoginSuccess("peter@klaven",
-                "cityslicka"));
+        peoplePresenter.attachView(peopleView);
+        Assert.assertTrue(peoplePresenter.isLoginAttemptExceeded());
+    }
+
+    @Test
+    public void checkIfUsernameAndPasswordIsCorrect() {
+        PeopleView peopleView = mock(PeopleView.class);
+        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        peoplePresenter.attachView(peopleView);
+        peoplePresenter.doLogin("peter@klaven", "cityslicka");
+        verify(peopleView).showMessageForLoginSuccess();
+    }
+
+    @Test
+    public void checkIfUsernameAndPasswordIsIncorrect() {
+        PeopleView peopleView = mock(PeopleView.class);
+        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        peoplePresenter.attachView(peopleView);
+        peoplePresenter.doLogin("qwerty", "cityslicka");
+        verify(peopleView).showErrorMessageForUserNameOrPassword();
+    }
+
+    @Test
+    public void checkIfLoginAttemptIsExceededAndViewMethodCalled() {
+        PeopleView peopleView = mock(PeopleView.class);
+        PeoplePresenter peoplePresenter = new PeoplePresenter();
+        peoplePresenter.attachView(peopleView);
+
+        peoplePresenter.doLogin("qwerty", "cityslicka");
+        peoplePresenter.doLogin("qwerty", "cityslicka");
+        peoplePresenter.doLogin("qwerty", "cityslicka");
+        peoplePresenter.doLogin("qwerty", "cityslicka");
+
+        verify(peopleView).showErrorMessageForMaxLoginAttempt();
     }
 
 }

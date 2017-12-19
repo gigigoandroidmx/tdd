@@ -26,6 +26,8 @@ ext{
     final JUNIT_VERSION = '4.12'
     final RUNNER_VERSION = '1.0.1'
     final ESPRESSO_VERSION = '3.0.1'
+    final MOCKITO_VERSION = '2.13.0'
+
     final SUPPORT_VERSION = '26.1.0'
     final CONSTRAINT_LAYOUT_VERSION = '1.0.2'
 
@@ -40,6 +42,8 @@ ext{
    final JUNIT_PACKAGE = 'junit'
    final RUNNER_PACKAGE = 'com.android.support.test'
    final ESPRESSO_PACKAGE = 'com.android.support.test.espresso'
+   final MOCKITO_PACKAGE = 'org.mockito'
+
    final SUPPORT_PACKAGE = 'com.android.support'
    final SUPPORT_CONSTRAINT_PACKAGE = 'com.android.support.constraint'
    final RETROFIT_PACKAGE = 'com.squareup.retrofit2'
@@ -68,7 +72,8 @@ ext{
     testing = [
             junit : buildDependency(JUNIT_PACKAGE, 'junit', JUNIT_VERSION),
             runner : buildDependency(RUNNER_PACKAGE, 'runner', RUNNER_VERSION),
-            espresso : buildDependency(ESPRESSO_PACKAGE, 'espresso-core', ESPRESSO_VERSION)
+            espresso : buildDependency(ESPRESSO_PACKAGE, 'espresso-core', ESPRESSO_VERSION),
+            mockito : buildDependency(MOCKITO_PACKAGE, 'mockito-core', MOCKITO_VERSION)
     ]
 
     //Modules

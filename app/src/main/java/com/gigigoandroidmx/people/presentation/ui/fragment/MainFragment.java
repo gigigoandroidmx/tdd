@@ -17,16 +17,17 @@
 package com.gigigoandroidmx.people.presentation.ui.fragment;
 
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.gigigoandroidmx.kmvp.BaseFragment;
+import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.data.model.People;
+import com.gigigoandroidmx.people.presentation.presenter.PeoplePresenter;
 import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
 
 import java.util.List;
@@ -36,7 +37,12 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment
-        extends BaseFragment implements PeopleView {
+        extends MvpFragment<PeopleView, PeoplePresenter>
+        implements PeopleView {
+
+    private EditText userName;
+    private EditText password;
+    private Button login;
 
     //region BaseFragment members
 
@@ -47,7 +53,20 @@ public class MainFragment
 
     @Override
     protected void onInitializeComponents() {
+        userName = getView().findViewById(R.id.edit_user_name);
+        password = getView().findViewById(R.id.edit_password);
+        login = getView().findViewById(R.id.btn_login);
 
+        userName.setText("peter@klaven");
+        password.setText("cityslicka");
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.doLogin(String.valueOf(userName.getText()),
+                        String.valueOf(password.getText()));
+            }
+        });
     }
 
     @Override
@@ -67,21 +86,40 @@ public class MainFragment
 
     //endregion
 
+
+    //region MvpFragment members
+
+    @Override
+    protected PeoplePresenter createPresenter() {
+        return new PeoplePresenter();
+    }
+
+    //endregion
+
     //region PeopleView members
 
     @Override
     public void showErrorMessageForUserNameOrPassword() {
-
+        Snackbar.make(password,
+                "Please check your Username or Password.",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
     public void showErrorMessageForMaxLoginAttempt() {
-
+        Snackbar.make(login,
+                "You have exceeded MAX attempt.",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override
     public void showMessageForLoginSuccess() {
-
+        Snackbar.make(login,
+                "Login successful.",
+                Snackbar.LENGTH_LONG)
+                .show();
     }
 
     @Override

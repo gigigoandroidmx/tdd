@@ -42,14 +42,21 @@ public class PeoplePresenter
         return loginAttempt >= MAX_LOGIN_ATTEMPT;
     }
 
-    public boolean isLoginSuccess(String username, String password) {
-        if(isLoginAttemptExceeded()) return false;
+    public void doLogin(String username, String password) {
+        //checkViewAttached();
 
-        if(username.equals("peter@klaven") && password.equals("cityslicka")) return true;
+        if(isLoginAttemptExceeded()) {
+            getView().showErrorMessageForMaxLoginAttempt();
+            return;
+        }
+
+        if(username.equals("peter@klaven") && password.equals("cityslicka")) {
+            getView().showMessageForLoginSuccess();
+            return;
+        }
 
         // increment login attempt if it's fail
         incrementLoginAttempt();
-
-        return false;
+        getView().showErrorMessageForUserNameOrPassword();
     }
 }
