@@ -45,6 +45,8 @@ public class RootApp
     @Override
     public void onCreate() {
         super.onCreate();
+
+        initializaeService();
     }
 
     private void initializaeService() {
