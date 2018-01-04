@@ -28,9 +28,7 @@ import io.reactivex.observers.DisposableObserver;
  * @version 0.0.1
  * @since 0.0.1
  */
-public abstract class UseCase<T, R extends Repository> {
-
-    private R repository;
+public abstract class UseCase<T, P> {
 
     private final CompositeDisposable compositeDisposable;
     private final Scheduler executorThread;
@@ -43,13 +41,13 @@ public abstract class UseCase<T, R extends Repository> {
         this.uiThread = uiThread;
     }
 
-    public void execute(DisposableObserver<T> disposableObserver) {
-        if(null == createObservableUseCase()) {
-            throw new NullPointerException("Observable must not be null");
+    public void execute(DisposableObserver<T> disposableObserver, P parameters) {
+        if(null == disposableObserver) {
+            throw new NullPointerException("DisposableObserver must not be null");
         }
 
-        final Observable<T> observable = createObservableUseCase()
-                .retryWhen(new RetryWithDelay(3, 30000))
+        final Observable<T> observable = createObservableUseCase(parameters)
+                //.retryWhen(new RetryWithDelay(3, 30000))
                 .subscribeOn(executorThread)
                 .observeOn(uiThread);
 
@@ -63,13 +61,5 @@ public abstract class UseCase<T, R extends Repository> {
         }
     }
 
-    public void setRepository(R repository) {
-        this.repository = repository;
-    }
-
-    public R getRepository() {
-        return repository;
-    }
-
-    protected abstract Observable<T> createObservableUseCase();
+    protected abstract Observable<T> createObservableUseCase(P parameters);
 }

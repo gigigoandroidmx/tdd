@@ -17,8 +17,8 @@
 package com.gigigoandroidmx.people.domain.usecase;
 
 import com.gigigoandroidmx.kmvp.UseCase;
-import com.gigigoandroidmx.people.data.repository.UserRepository;
 import com.gigigoandroidmx.people.domain.model.User;
+import com.gigigoandroidmx.people.domain.repository.ListUsersRepository;
 
 import java.util.List;
 
@@ -32,16 +32,32 @@ import io.reactivex.Scheduler;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class GetUsers
-        extends UseCase<List<User>, UserRepository> {
+public class GetListUsersUseCase
+        extends UseCase<List<User>, GetListUsersUseCase.Params> {
 
-    public GetUsers(Scheduler executorThread,
-                    Scheduler uiThread) {
+    private final ListUsersRepository repository;
+
+    public GetListUsersUseCase(ListUsersRepository repository,
+                               Scheduler executorThread,
+                               Scheduler uiThread) {
         super(executorThread, uiThread);
+        this.repository = repository;
     }
 
     @Override
-    protected Observable<List<User>> createObservableUseCase() {
-        return getRepository().getUsers();
+    protected Observable<List<User>> createObservableUseCase(Params parameters) {
+        return repository.getListUser(parameters.page);
+    }
+
+    public static final class Params {
+        private final int page;
+
+        public Params(int page) {
+            this.page = page;
+        }
+
+        public static Params forPage(int page) {
+            return new Params(page);
+        }
     }
 }

@@ -27,9 +27,9 @@ import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.data.entity.UserEntity;
 import com.gigigoandroidmx.people.data.repository.UserRepository;
-import com.gigigoandroidmx.people.domain.usecase.GetUsers;
-import com.gigigoandroidmx.people.presentation.presenter.PeoplePresenter;
-import com.gigigoandroidmx.people.presentation.presenter.view.PeopleView;
+import com.gigigoandroidmx.people.domain.usecase.GetListUsersUseCase;
+import com.gigigoandroidmx.people.presentation.presenter.ListUsersPresenter;
+import com.gigigoandroidmx.people.presentation.presenter.view.ListUsersView;
 
 import java.util.List;
 
@@ -45,106 +45,105 @@ import io.reactivex.schedulers.Schedulers;
  * A simple {@link Fragment} subclass.
  */
 public class MainFragment
-        extends MvpFragment<PeopleView, PeoplePresenter>
-        implements PeopleView {
+        extends Fragment {
 
-    private Unbinder unbinder;
-
-    @BindView(R.id.edit_user_name)
-    EditText userName;
-    @BindView(R.id.edit_password)
-    EditText password;
-    @BindView(R.id.btn_login)
-    Button login;
-
-    @OnClick(R.id.btn_login)
-    void doLogin() {
-        presenter.doLogin(String.valueOf(userName.getText()),
-                String.valueOf(password.getText()));
-    }
-
-    //region BaseFragment members
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_main;
-    }
-
-    @Override
-    protected void onInitializeUIComponents() {
-        userName.setText("peter@klaven");
-        password.setText("cityslicka");
-    }
-
-    @Override
-    protected void onInitializeMembers() {  }
-
-    @Override
-    protected void onBindView(View root) {
-        unbinder = ButterKnife.bind(this, root);
-    }
-
-    @Override
-    protected void onUnbindView() {
-        if(null != unbinder) unbinder.unbind();
-    }
-
-    //endregion
-
-
-    //region MvpFragment members
-
-    @Override
-    protected PeoplePresenter createPresenter() {
-        GetUsers getUsers = new GetUsers(Schedulers.io(),
-                AndroidSchedulers.mainThread());
-        UserRepository userRepository = new UserRepository();
-        getUsers.setRepository(userRepository);
-        return new PeoplePresenter(getUsers);
-    }
-
-    //endregion
-
-    //region PeopleView members
-
-    @Override
-    public void showErrorMessageForUserNameOrPassword() {
-        Snackbar.make(password,
-                "Please check your Username or Password.",
-                Snackbar.LENGTH_LONG)
-                .show();
-    }
-
-    @Override
-    public void showErrorMessageForMaxLoginAttempt() {
-        Snackbar.make(login,
-                "You have exceeded MAX attempt.",
-                Snackbar.LENGTH_LONG)
-                .show();
-    }
-
-    @Override
-    public void showMessageForLoginSuccess() {
-        Snackbar.make(login,
-                "Login successful.",
-                Snackbar.LENGTH_LONG)
-                .show();
-    }
-
-    @Override
-    public void onFetchPeopleSuccess(List<UserEntity> people) {
-
-    }
-
-    @Override
-    public void showProgress(boolean active) {
-
-    }
-
-    @Override
-    public void showError(Throwable exception) {
-
-    }
-
-    //endregion
+//    private Unbinder unbinder;
+//
+//    @BindView(R.id.edit_user_name)
+//    EditText userName;
+//    @BindView(R.id.edit_password)
+//    EditText password;
+//    @BindView(R.id.btn_login)
+//    Button login;
+//
+//    @OnClick(R.id.btn_login)
+//    void doLogin() {
+//        presenter.doLogin(String.valueOf(userName.getText()),
+//                String.valueOf(password.getText()));
+//    }
+//
+//    //region BaseFragment members
+//
+//    @Override
+//    protected int getLayoutId() {
+//        return R.layout.fragment_main;
+//    }
+//
+//    @Override
+//    protected void onInitializeUIComponents() {
+//        userName.setText("peter@klaven");
+//        password.setText("cityslicka");
+//    }
+//
+//    @Override
+//    protected void onInitializeMembers() {  }
+//
+//    @Override
+//    protected void onBindView(View root) {
+//        unbinder = ButterKnife.bind(this, root);
+//    }
+//
+//    @Override
+//    protected void onUnbindView() {
+//        if(null != unbinder) unbinder.unbind();
+//    }
+//
+//    //endregion
+//
+//
+//    //region MvpFragment members
+//
+//    @Override
+//    protected ListUsersPresenter createPresenter() {
+//        GetListUsersUseCase getListUsersUseCase = new GetListUsersUseCase(Schedulers.io(),
+//                AndroidSchedulers.mainThread(), repository);
+//        UserRepository userRepository = new UserRepository(api, userMapper);
+//        getListUsersUseCase.setRepository(userRepository);
+//        return new ListUsersPresenter(getListUsersUseCase);
+//    }
+//
+//    //endregion
+//
+//    //region ListUsersView members
+//
+//    @Override
+//    public void showErrorMessageForUserNameOrPassword() {
+//        Snackbar.make(password,
+//                "Please check your Username or Password.",
+//                Snackbar.LENGTH_LONG)
+//                .show();
+//    }
+//
+//    @Override
+//    public void showErrorMessageForMaxLoginAttempt() {
+//        Snackbar.make(login,
+//                "You have exceeded MAX attempt.",
+//                Snackbar.LENGTH_LONG)
+//                .show();
+//    }
+//
+//    @Override
+//    public void showMessageForLoginSuccess() {
+//        Snackbar.make(login,
+//                "Login successful.",
+//                Snackbar.LENGTH_LONG)
+//                .show();
+//    }
+//
+//    @Override
+//    public void onFetchPeopleSuccess(List<UserEntity> people) {
+//
+//    }
+//
+//    @Override
+//    public void showProgress(boolean active) {
+//
+//    }
+//
+//    @Override
+//    public void showError(Throwable exception) {
+//
+//    }
+//
+//    //endregion
 }

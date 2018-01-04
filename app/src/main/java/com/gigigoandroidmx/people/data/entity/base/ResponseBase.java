@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.data.entity;
+package com.gigigoandroidmx.people.data.entity.base;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public class Collect {
-
+public abstract class ResponseBase<T> {
     @SerializedName("page")
     @Expose
     private Integer page;
@@ -44,7 +41,7 @@ public class Collect {
     private Integer totalPages;
     @SerializedName("data")
     @Expose
-    private List<UserEntity> data = null;
+    private T data = null;
 
     public Integer getPage() {
         return page;
@@ -78,12 +75,13 @@ public class Collect {
         this.totalPages = totalPages;
     }
 
-    public List<UserEntity> getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(List<UserEntity> data) {
+    public void setData(T data) {
         this.data = data;
     }
 
+    public abstract boolean hasData();
 }

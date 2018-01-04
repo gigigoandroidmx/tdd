@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.kmvp;
+package com.gigigoandroidmx.people.presentation.ui.activity;
 
-/**
- * Defines ...
- *
- * @author Juan Godinez Vera - December 13, 2017
- * @version 0.0.1
- * @since 0.0.1
- */
-public interface Presenter<V extends View> {
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-    void attachView(V view);
+import com.gigigoandroidmx.people.R;
 
-    void detachView();
+public class ListUsersActivity extends AppCompatActivity {
 
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_users);
+    }
 }

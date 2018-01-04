@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,21 +19,12 @@ package com.gigigoandroidmx.kmvp;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - December 28, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface Presenter<V extends View> {
-
-    void attachView(V view);
-
-    void detachView();
-
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+public interface Network {
+    boolean isConnected();
+    int connectivityType();
+    boolean isReachable(String host, int timeout);
 }

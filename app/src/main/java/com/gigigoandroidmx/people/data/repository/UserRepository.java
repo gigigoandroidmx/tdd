@@ -16,14 +16,16 @@
 
 package com.gigigoandroidmx.people.data.repository;
 
-import com.gigigoandroidmx.kmvp.Repository;
+import com.gigigoandroidmx.people.data.RestApi;
+import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
+import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
 import com.gigigoandroidmx.people.domain.model.User;
+import com.gigigoandroidmx.people.domain.repository.ListUsersRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 
 /**
  * Defines ...
@@ -33,22 +35,31 @@ import io.reactivex.Observable;
  * @since 0.0.1
  */
 public class UserRepository
-        implements Repository {
+        implements ListUsersRepository {
 
-    public Observable<List<User>> getUsers() {
-        return Observable.fromCallable(new Callable<List<User>>() {
+    private final RestApi api;
+    private final UserEntityToUserMapper userMapper;
+
+    public UserRepository(RestApi api,
+                          UserEntityToUserMapper userMapper) {
+        this.api = api;
+        this.userMapper = userMapper;
+    }
+
+    @Override
+    public Observable<List<User>> getListUser(int page) {
+        Observable<ListUsersResponse> response = api.getListUsers(page);
+
+        if(null == response) return null;
+
+        return response.map(new Function<ListUsersResponse, List<User>>() {
             @Override
-            public List<User> call() throws Exception {
-                List<User> users = new ArrayList<>();
-
-                for (int i = 0; i < 5; i++){
-                    User user = new User();
-                    user.setId(i);
-                    user.setName("User " + String.valueOf(i));
-                    users.add(user);
+            public List<User> apply(ListUsersResponse listUsersResponse) throws Exception {
+                if(null != listUsersResponse && listUsersResponse.hasData()) {
+                    return userMapper.map(listUsersResponse.getData());
+                } else {
+                    return null;
                 }
-
-                return users;
             }
         });
     }

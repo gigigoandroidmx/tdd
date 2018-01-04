@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.kmvp;
+package com.gigigoandroidmx.people.data;
+
+import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface Presenter<V extends View> {
-
-    void attachView(V view);
-
-    void detachView();
-
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+public interface RestApi {
+    @GET("/api/users")
+    Observable<ListUsersResponse> getListUsers(@Query("page") int page);
 }

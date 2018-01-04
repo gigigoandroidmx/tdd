@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.kmvp;
+package com.gigigoandroidmx.people.data.entity;
+
+import com.gigigoandroidmx.people.data.entity.base.ResponseBase;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 /**
  * Defines ...
@@ -23,17 +29,11 @@ package com.gigigoandroidmx.kmvp;
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface Presenter<V extends View> {
+public class ListUsersResponse
+        extends ResponseBase<List<UserEntity>> {
 
-    void attachView(V view);
-
-    void detachView();
-
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+    @Override
+    public boolean hasData() {
+        return null != getData() && !getData().isEmpty();
+    }
 }

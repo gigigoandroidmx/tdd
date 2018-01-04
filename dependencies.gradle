@@ -36,8 +36,9 @@ ext{
     final OK_HTTP_VERSION = '3.9.1'
     final RX_ANDROID_VERSION = '2.0.1'
     final RX_JAVA_VERSION = '2.1.7'
+    final rxJavaAdapterVersion = '2.3.0'
+    final logginginterceptorVersion = '2.0.0'
 
-//    logginginterceptorVersion = '2.0.0'
     final BUTTERKNIFE_VERSION = '8.4.0'
 
     //Packages
@@ -51,7 +52,7 @@ ext{
     final RETROFIT_PACKAGE = 'com.squareup.retrofit2'
     final RX_PACKAGE = 'io.reactivex.rxjava2'
     final OK_HTTP_PACKAGE = 'com.squareup.okhttp3'
-//   final LOGGING_INTERCEPTOR_PACKAGE  = 'com.github.ihsanbal'
+    final LOGGING_INTERCEPTOR_PACKAGE  = 'com.github.ihsanbal'
     final BUTTERKNIFE_PACKAGE = 'com.jakewharton'
 
     //Libraries
@@ -69,7 +70,9 @@ ext{
 
             rxandroid : buildDependency(RX_PACKAGE, 'rxandroid', RX_ANDROID_VERSION),
             rxjava : buildDependency(RX_PACKAGE, 'rxjava', RX_JAVA_VERSION),
-//            logginginterceptor :        buildDependency(logginginterceptorPackage, 'LoggingInterceptor', logginginterceptorVersion),
+            rxjavaadapter : buildDependency(RETROFIT_PACKAGE, 'adapter-rxjava2', rxJavaAdapterVersion),
+            logginginterceptor : buildDependency(LOGGING_INTERCEPTOR_PACKAGE, 'LoggingInterceptor', logginginterceptorVersion),
+
             butterknife : buildDependency(BUTTERKNIFE_PACKAGE, 'butterknife', BUTTERKNIFE_VERSION),
             butterknifecompiler : buildDependency(BUTTERKNIFE_PACKAGE, 'butterknife-compiler', BUTTERKNIFE_VERSION),
     ]

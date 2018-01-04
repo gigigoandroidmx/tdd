@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.kmvp;
+package com.gigigoandroidmx.people.presentation.presenter.view;
+
+import com.gigigoandroidmx.kmvp.View;
+import com.gigigoandroidmx.people.presentation.model.UserViewModel;
+
+import java.util.List;
 
 /**
  * Defines ...
@@ -23,17 +28,10 @@ package com.gigigoandroidmx.kmvp;
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface Presenter<V extends View> {
-
-    void attachView(V view);
-
-    void detachView();
-
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+public interface ListUsersView
+        extends View {
+    void onFetchPeopleSuccess(List<UserViewModel> userViewModels);
+    void onEmptyResult();
+    void showProgress(boolean active);
+    void showError(Throwable exception);
 }

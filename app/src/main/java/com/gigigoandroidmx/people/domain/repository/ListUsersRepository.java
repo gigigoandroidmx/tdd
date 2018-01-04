@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,24 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.people.presentation.presenter.view;
+package com.gigigoandroidmx.people.domain.repository;
 
-import com.gigigoandroidmx.kmvp.View;
-import com.gigigoandroidmx.people.data.entity.UserEntity;
+import com.gigigoandroidmx.kmvp.Repository;
+import com.gigigoandroidmx.people.domain.model.User;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Juan Godinez Vera - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface PeopleView
-        extends View {
+public interface ListUsersRepository
+        extends Repository {
 
-    void showErrorMessageForUserNameOrPassword();
-    void showErrorMessageForMaxLoginAttempt();
-    void showMessageForLoginSuccess();
-
-    void onFetchPeopleSuccess(List<UserEntity> people);
-    void showProgress(boolean active);
-    void showError(Throwable exception);
+    Observable<List<User>> getListUser(int page);
 }
