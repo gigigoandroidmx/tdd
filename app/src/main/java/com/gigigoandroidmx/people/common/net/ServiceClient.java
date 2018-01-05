@@ -18,8 +18,11 @@ package com.gigigoandroidmx.people.common.net;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 
@@ -34,12 +37,26 @@ public class ServiceClient {
     private final List<String> endpoints;
     private final List<Converter.Factory> converterFactories;
     private final List<CallAdapter.Factory> adapterFactories;
-    private Interceptor loggingInterceptor;
-    private Interceptor connectivityInterceptor;
+    private OkHttpClient client;
 
     private static volatile ServiceClient defaultInstance;
 
-    private static final ServiceClientBuilder DEFAULT_BUILDER = new ServiceClientBuilder();
+    private static final ServiceClientBuilder DEFAULT_BUILDER
+            = new ServiceClientBuilder(getDefaultClient());
+
+    private static OkHttpClient getDefaultClient() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+        return client;
+    }
 
     public static ServiceClient getDefault() {
         if (defaultInstance == null) {
@@ -49,11 +66,12 @@ public class ServiceClient {
                 }
             }
         }
+
         return defaultInstance;
     }
 
-    public static ServiceClientBuilder builder() {
-        return new ServiceClientBuilder();
+    public static ServiceClientBuilder builder(OkHttpClient client) {
+        return new ServiceClientBuilder(client);
     }
 
     private ServiceClient() {
@@ -64,8 +82,7 @@ public class ServiceClient {
         endpoints = builder.endpoints;
         converterFactories = builder.converterFactories;
         adapterFactories = builder.adapterFactories;
-        loggingInterceptor = builder.loggingInterceptor;
-        connectivityInterceptor = builder.connectivityInterceptor;
+        client = builder.client;
     }
 
     public String getEndpointByIndex(int index) {
@@ -95,23 +112,20 @@ public class ServiceClient {
         return null != adapterFactories && !adapterFactories.isEmpty();
     }
 
-    public Interceptor getLoggingInterceptor() {
-        return loggingInterceptor;
-    }
-
-    public Interceptor getConnectivityInterceptor() {
-        return connectivityInterceptor;
+    public OkHttpClient getOkHttpClient() {
+        return client;
     }
 
     public static class ServiceClientBuilder {
         private final List<String> endpoints = new ArrayList<>();
         private final List<Converter.Factory> converterFactories = new ArrayList<>();
         private final List<CallAdapter.Factory> adapterFactories = new ArrayList<>();
-        private Interceptor loggingInterceptor;
-        private Interceptor connectivityInterceptor;
 
-        ServiceClientBuilder() {
+        private final OkHttpClient client;
 
+        ServiceClientBuilder(OkHttpClient client) {
+
+            this.client = client;
         }
 
         public ServiceClientBuilder addEndpoint(String endpoint) {
@@ -126,16 +140,6 @@ public class ServiceClient {
 
         public ServiceClientBuilder addCallAdapterFactory(CallAdapter.Factory factory) {
             adapterFactories.add(factory);
-            return this;
-        }
-
-        public ServiceClientBuilder setLoggingInterceptor(Interceptor interceptor) {
-            loggingInterceptor = interceptor;
-            return this;
-        }
-
-        public ServiceClientBuilder setConnectivityInterceptor(Interceptor interceptor) {
-            connectivityInterceptor = interceptor;
             return this;
         }
 

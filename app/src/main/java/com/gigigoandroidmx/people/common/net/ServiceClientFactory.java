@@ -36,44 +36,18 @@ public class ServiceClientFactory {
                                       Class<T> classType) {
         return createService(serviceClient,
                 classType,
-                0,
-                ServiceTimeoutSettings.DEFAULT());
-    }
-
-    public static <T> T createService(ServiceClient serviceClient,
-                                      Class<T> classType, int endpointIndex) {
-        return createService(serviceClient,
-                classType,
-                endpointIndex,
-                ServiceTimeoutSettings.DEFAULT());
+                0);
     }
 
     public static <T> T createService(ServiceClient serviceClient,
                                       Class<T> classType,
-                                      int endpointIndex,
-                                      ServiceTimeoutSettings serviceTimeoutSettings) {
+                                      int endpointIndex) {
 
         String endpoint = serviceClient.getEndpointByIndex(endpointIndex);
 
-        OkHttpClient.Builder okHttpBuilder = new OkHttpClient.Builder();
-
-        okHttpBuilder.connectTimeout(serviceTimeoutSettings.getConnectTimeout(), TimeUnit.SECONDS)
-                .writeTimeout(serviceTimeoutSettings.getWriteTimeout(), TimeUnit.SECONDS)
-                .readTimeout(serviceTimeoutSettings.getReadTimeout(), TimeUnit.SECONDS);
-
-        if(null != serviceClient.getLoggingInterceptor()) {
-            okHttpBuilder.interceptors().add(serviceClient.getLoggingInterceptor() );
-        }
-
-        if(null != serviceClient.getConnectivityInterceptor()) {
-            okHttpBuilder.interceptors().add(serviceClient.getConnectivityInterceptor());
-        }
-
-        OkHttpClient okHttpClient = okHttpBuilder.build();
-
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(endpoint)
-                .client(okHttpClient);
+                .client(serviceClient.getOkHttpClient());
 
         if(serviceClient.hasConverterFactories()) {
             for(Converter.Factory factory : serviceClient.getConverterFactories()) {

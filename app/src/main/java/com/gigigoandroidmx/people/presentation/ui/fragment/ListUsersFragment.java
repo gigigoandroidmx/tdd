@@ -17,10 +17,12 @@
 package com.gigigoandroidmx.people.presentation.ui.fragment;
 
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
+import com.gigigoandroidmx.people.common.MvpBindingFragment;
 import com.gigigoandroidmx.people.common.net.ServiceClient;
 import com.gigigoandroidmx.people.common.net.ServiceClientFactory;
 import com.gigigoandroidmx.people.data.RestApi;
@@ -34,6 +36,7 @@ import com.gigigoandroidmx.people.presentation.presenter.view.ListUsersView;
 
 import java.util.List;
 
+import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -41,9 +44,11 @@ import io.reactivex.schedulers.Schedulers;
  * A simple {@link Fragment} subclass.
  */
 public class ListUsersFragment
-        extends MvpFragment<ListUsersView, ListUsersPresenter>
+        extends MvpBindingFragment<ListUsersView, ListUsersPresenter>
         implements ListUsersView {
 
+    @BindView(R.id.recycler_view_list_users)
+    RecyclerView recyclerViewListUsers;
 
     //region BaseFragment members
 
@@ -60,16 +65,6 @@ public class ListUsersFragment
     @Override
     protected void onInitializeMembers() {
         presenter.getUsers(2);
-    }
-
-    @Override
-    protected void onBindView(View root) {
-
-    }
-
-    @Override
-    protected void onUnbindView() {
-
     }
 
     //endregion

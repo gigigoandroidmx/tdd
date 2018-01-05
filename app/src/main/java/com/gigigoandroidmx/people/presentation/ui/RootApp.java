@@ -28,6 +28,9 @@ import com.ihsanbal.logging.Level;
 import com.ihsanbal.logging.LoggingInterceptor;
 
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,10 +49,10 @@ public class RootApp
     public void onCreate() {
         super.onCreate();
 
-        initializaeService();
+        initializeServiceClient();
     }
 
-    private void initializaeService() {
+    private void initializeServiceClient() {
         LoggingInterceptor loggerInterceptor = new LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
                 .setLevel(Level.BASIC)
@@ -66,10 +69,17 @@ public class RootApp
         RequestInterceptor requestInterceptor =
                 new RequestInterceptor(new Connectivity(this));
 
-        ServiceClient.builder()
-                .setLoggingInterceptor(loggerInterceptor)
-                .setConnectivityInterceptor(requestInterceptor)
-                .addEndpoint("https://reqres.in"/*BuildConfig.HOST*/)
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggerInterceptor)
+                .addInterceptor(requestInterceptor)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .build();
+
+        ServiceClient.builder(client)
+                //.addEndpoint(BuildConfig.HOST)
+                .addEndpoint("https://reqres.in")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
