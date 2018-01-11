@@ -16,8 +16,10 @@
 
 package com.gigigoandroidmx.people.presentation.ui.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.common.recyclerext.RecyclerAdapter;
 import com.gigigoandroidmx.people.common.recyclerext.ViewHolderAdapter;
 import com.gigigoandroidmx.people.presentation.model.UserViewModel;
@@ -34,6 +36,8 @@ public class ListUsersAdapter
 
     @Override
     public ViewHolderAdapter<UserViewModel> onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View view = getView(parent, R.layout.item_user);
+        ListUsersViewHolder viewHolder = new ListUsersViewHolder(view);
+        return viewHolder;
     }
 }

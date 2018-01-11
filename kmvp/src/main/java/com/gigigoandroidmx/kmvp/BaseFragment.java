@@ -73,8 +73,8 @@ public abstract class BaseFragment
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        onInitializeUIComponents();
         onInitializeMembers();
+        onInitializeUIComponents();
     }
 
     @Override

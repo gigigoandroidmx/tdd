@@ -46,18 +46,20 @@ public class GetListUsersUseCase
 
     @Override
     protected Observable<List<User>> createObservableUseCase(Params parameters) {
-        return repository.getListUser(parameters.page);
+        return repository.getListUser(parameters.page, parameters.perPage);
     }
 
     public static final class Params {
         private final int page;
+        private final int perPage;
 
-        public Params(int page) {
+        public Params(int page, int perPage) {
             this.page = page;
+            this.perPage = perPage;
         }
 
-        public static Params forPage(int page) {
-            return new Params(page);
+        public static Params forPage(int page, int perPage) {
+            return new Params(page, perPage);
         }
     }
 }

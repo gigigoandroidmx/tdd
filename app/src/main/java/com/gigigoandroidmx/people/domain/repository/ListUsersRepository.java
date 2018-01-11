@@ -33,5 +33,5 @@ import io.reactivex.Observable;
 public interface ListUsersRepository
         extends Repository {
 
-    Observable<List<User>> getListUser(int page);
+    Observable<List<User>> getListUser(int page, int perPage);
 }

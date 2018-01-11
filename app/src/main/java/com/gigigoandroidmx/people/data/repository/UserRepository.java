@@ -22,9 +22,13 @@ import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
 import com.gigigoandroidmx.people.domain.model.User;
 import com.gigigoandroidmx.people.domain.repository.ListUsersRepository;
 
+import java.util.AbstractCollection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
 
 /**
@@ -47,8 +51,12 @@ public class UserRepository
     }
 
     @Override
-    public Observable<List<User>> getListUser(int page) {
-        Observable<ListUsersResponse> response = api.getListUsers(page);
+    public Observable<List<User>> getListUser(int page, int perPage) {
+        Map<String, String> data = new HashMap<>();
+        data.put("page", String.valueOf(page));
+        data.put("per_page", String.valueOf(perPage));
+
+        Observable<ListUsersResponse> response = api.getListUsers(data);
 
         if(null == response) return null;
 

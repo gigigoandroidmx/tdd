@@ -18,9 +18,11 @@ package com.gigigoandroidmx.people.data;
 
 import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 /**
  * Defines ...
@@ -31,5 +33,5 @@ import retrofit2.http.Query;
  */
 public interface RestApi {
     @GET("/api/users")
-    Observable<ListUsersResponse> getListUsers(@Query("page") int page);
+    Observable<ListUsersResponse> getListUsers(@QueryMap(encoded=true) Map<String, String> options);
 }

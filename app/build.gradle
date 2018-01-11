@@ -27,10 +27,12 @@ dependencies {
     // App's dependencies, including test
     implementation parent.ext.libraries.annotations
 
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
     implementation parent.ext.libraries.design
     implementation parent.ext.libraries.appcompat
     implementation parent.ext.libraries.recyclerview
-    implementation parent.ext.libraries.support
+    implementation parent.ext.libraries.supportv4
     implementation parent.ext.libraries.constraintlayout
 
     implementation parent.ext.libraries.gsonconverter
@@ -43,9 +45,9 @@ dependencies {
     implementation parent.ext.libraries.logginginterceptor
 
     implementation parent.ext.libraries.butterknife
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:support-v4:26.1.0'
     annotationProcessor parent.ext.libraries.butterknifecompiler
+
+    implementation parent.ext.libraries.glide
 
     implementation parent.ext.modules.kmvp
 

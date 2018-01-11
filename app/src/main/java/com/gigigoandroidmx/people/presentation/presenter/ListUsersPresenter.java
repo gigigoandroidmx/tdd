@@ -46,8 +46,8 @@ public class ListUsersPresenter
         this.userViewModelMapper = userViewModelMapper;
     }
 
-    public void getUsers(int page) {
-        GetListUsersUseCase.Params params = GetListUsersUseCase.Params.forPage(page);
+    public void getUsers(int page, int perPage) {
+        GetListUsersUseCase.Params params = GetListUsersUseCase.Params.forPage(page, perPage);
         getListUsersUseCase.execute(new UserListObserver(), params);
     }
 

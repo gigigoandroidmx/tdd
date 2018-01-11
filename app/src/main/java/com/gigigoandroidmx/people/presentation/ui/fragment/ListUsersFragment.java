@@ -17,14 +17,20 @@
 package com.gigigoandroidmx.people.presentation.ui.fragment;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.common.MvpBindingFragment;
 import com.gigigoandroidmx.people.common.net.ServiceClient;
 import com.gigigoandroidmx.people.common.net.ServiceClientFactory;
+import com.gigigoandroidmx.people.common.recyclerext.EndlessScrollListener;
+import com.gigigoandroidmx.people.common.recyclerext.RecyclerExtensions;
 import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.repository.UserRepository;
 import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
@@ -33,6 +39,7 @@ import com.gigigoandroidmx.people.presentation.model.UserViewModel;
 import com.gigigoandroidmx.people.presentation.model.mapper.UserToUserViewModel;
 import com.gigigoandroidmx.people.presentation.presenter.ListUsersPresenter;
 import com.gigigoandroidmx.people.presentation.presenter.view.ListUsersView;
+import com.gigigoandroidmx.people.presentation.ui.adapter.ListUsersAdapter;
 
 import java.util.List;
 
@@ -47,8 +54,17 @@ public class ListUsersFragment
         extends MvpBindingFragment<ListUsersView, ListUsersPresenter>
         implements ListUsersView {
 
+    private static final int PAGE = 1;
+    private static final int PER_PAGE = 10;
+
+    @BindView(R.id.swipe_refresh_layout_list_users)
+    SwipeRefreshLayout refreshLayoutListUsers;
+
     @BindView(R.id.recycler_view_list_users)
     RecyclerView recyclerViewListUsers;
+
+    private boolean isRefreshing;
+    private ListUsersAdapter adapter;
 
     //region BaseFragment members
 
@@ -58,13 +74,37 @@ public class ListUsersFragment
     }
 
     @Override
-    protected void onInitializeUIComponents() {
+    protected void onInitializeMembers() {
+        adapter = new ListUsersAdapter();
 
+        refreshLayoutListUsers.setColorSchemeResources(R.color.colorPrimary,
+                R.color.colorAccent);
+        refreshLayoutListUsers.setOnRefreshListener(refreshListener);
+
+        presenter.getUsers(PAGE, PER_PAGE);
     }
 
     @Override
-    protected void onInitializeMembers() {
-        presenter.getUsers(2);
+    protected void onInitializeUIComponents() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.VERTICAL,
+                false);
+        recyclerViewListUsers.setLayoutManager(layoutManager);
+        recyclerViewListUsers.setHasFixedSize(true);
+        recyclerViewListUsers.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewListUsers.setAdapter(adapter);
+        recyclerViewListUsers.addOnScrollListener(new EndlessScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                presenter.getUsers(page + 1, PER_PAGE);
+            }
+
+            @Override
+            public void onHide() { }
+
+            @Override
+            public void onShow() { }
+        });
     }
 
     //endregion
@@ -72,23 +112,32 @@ public class ListUsersFragment
     //region ListUsersView members
 
     @Override
-    public void onFetchPeopleSuccess(List<UserViewModel> userViewModels) {
-
-    }
-
-    @Override
-    public void onEmptyResult() {
-
-    }
-
-    @Override
     public void showProgress(boolean active) {
 
     }
 
     @Override
-    public void showError(Throwable exception) {
+    public void onFetchPeopleSuccess(List<UserViewModel> userViewModels) {
+        onRefreshCompleted();
+        if(adapter.getItemCount() == 0) {
+            adapter.set(userViewModels);
+        } else {
+            adapter.addRange(userViewModels);
+        }
+//        RecyclerExtensions.runLayoutAnimation(recyclerViewListUsers,
+//                R.anim.layout_animation_from_bottom);
+    }
 
+    @Override
+    public void onEmptyResult() {
+        onRefreshCompleted();
+        Toast.makeText(getContext(), "No se encontraron resultados.", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showError(Throwable exception) {
+        onRefreshCompleted();
+        Toast.makeText(getContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     //endregion
@@ -108,4 +157,22 @@ public class ListUsersFragment
     }
 
     //endregion
+
+    private void onRefreshCompleted() {
+        if(isRefreshing) {
+            isRefreshing = false;
+        }
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            refreshLayoutListUsers.setRefreshing(false);
+            if (!isRefreshing) {
+                adapter.clear();
+                isRefreshing = true;
+                presenter.getUsers(PAGE, PER_PAGE);
+            }
+        }
+    };
 }
