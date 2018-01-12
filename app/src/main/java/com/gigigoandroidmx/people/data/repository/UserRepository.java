@@ -78,7 +78,10 @@ public class UserRepository
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
 
-        return (Observable<ResponseBody>) api.login(params).onErrorResumeNext(
+        /*return (Observable<ResponseBody>) api.login(params).onErrorResumeNext(
+                new RxErrorHandlerFunction(SimpleResponseError.class));*/
+
+        return (Observable<ResponseBody>) api.singleUserNotFound().onErrorResumeNext(
                 new RxErrorHandlerFunction(SimpleResponseError.class));
     }
 }

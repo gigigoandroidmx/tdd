@@ -7,4 +7,5 @@ package com.gigigoandroidmx.people.common.net.error;
  */
 public interface ResponseError {
     String getError();
+    boolean hasErrorMessage();
 }

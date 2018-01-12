@@ -40,4 +40,7 @@ public interface RestApi {
 
     @POST("/api/login")
     Observable<ResponseBody> login(@Body Map<String, String> params);
+
+    @GET("/api/users/23")
+    Observable<ResponseBody> singleUserNotFound();
 }

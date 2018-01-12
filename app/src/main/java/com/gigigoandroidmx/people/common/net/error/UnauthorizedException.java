@@ -5,5 +5,5 @@ package com.gigigoandroidmx.people.common.net.error;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class UnAuthorizedException extends Throwable {
+public class UnauthorizedException extends Throwable {
 }

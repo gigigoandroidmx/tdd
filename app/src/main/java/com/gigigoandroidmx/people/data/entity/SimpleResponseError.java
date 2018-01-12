@@ -19,4 +19,9 @@ public class SimpleResponseError implements Serializable, ResponseError {
     public String getError() {
         return error;
     }
+
+    @Override
+    public boolean hasErrorMessage() {
+        return error != null && !error.isEmpty();
+    }
 }
