@@ -16,20 +16,21 @@
 
 package com.gigigoandroidmx.people.data.repository;
 
+import com.gigigoandroidmx.people.common.net.error.RxErrorHandlerFunction;
 import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
+import com.gigigoandroidmx.people.data.entity.SimpleResponseError;
 import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
 import com.gigigoandroidmx.people.domain.model.User;
 import com.gigigoandroidmx.people.domain.repository.ListUsersRepository;
 
-import java.util.AbstractCollection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.functions.Function;
+import okhttp3.ResponseBody;
 
 /**
  * Defines ...
@@ -58,17 +59,26 @@ public class UserRepository
 
         Observable<ListUsersResponse> response = api.getListUsers(data);
 
-        if(null == response) return null;
+        if (null == response) return null;
 
         return response.map(new Function<ListUsersResponse, List<User>>() {
             @Override
             public List<User> apply(ListUsersResponse listUsersResponse) throws Exception {
-                if(null != listUsersResponse && listUsersResponse.hasData()) {
+                if (null != listUsersResponse && listUsersResponse.hasData()) {
                     return userMapper.map(listUsersResponse.getData());
                 } else {
                     return null;
                 }
             }
         });
+    }
+
+    @Override
+    public Observable<ResponseBody> login(String email) {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+
+        return (Observable<ResponseBody>) api.login(params).onErrorResumeNext(
+                new RxErrorHandlerFunction(SimpleResponseError.class));
     }
 }

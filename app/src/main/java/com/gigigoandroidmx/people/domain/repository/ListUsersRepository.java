@@ -22,6 +22,7 @@ import com.gigigoandroidmx.people.domain.model.User;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 
 /**
  * Defines ...
@@ -34,4 +35,6 @@ public interface ListUsersRepository
         extends Repository {
 
     Observable<List<User>> getListUser(int page, int perPage);
+
+    Observable<ResponseBody> login(String email);
 }
