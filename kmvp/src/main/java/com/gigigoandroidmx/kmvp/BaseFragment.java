@@ -43,7 +43,6 @@ public abstract class BaseFragment
     protected abstract void onInitializeMembers();
     protected abstract void onBindView(View root);
     protected abstract void onUnbindView();
-
     protected void onRestoreExtras(Bundle arguments) { }
 
     @Override

@@ -20,43 +20,35 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
- * @author Juan Godinez Vera - December 13, 2017
+ * @author Omar Bacilio - January 15, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public abstract class MvpFragment<V extends View, P extends Presenter<V>>
-        extends BaseFragment {
+public abstract class MvpActivity<V extends View, P extends Presenter<V>> extends BaseActivity {
 
     protected P presenter;
 
     protected abstract P createPresenter();
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (null == presenter) presenter = createPresenter();
+        if (presenter == null)
+            presenter = createPresenter();
 
-        if (null == presenter) throw new NullPointerException("The presenter must not be null.");
+        if (presenter == null)
+            throw new NullPointerException("The activity presenter must not be null.");
 
         if (!(this instanceof View))
-            throw new MvpFragmentNotImplementedException();
+            throw new MvpActivityNotImplementedException();
 
         presenter.attachView((V) this);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if (null != presenter) presenter.detachView();
-    }
-
-    public static class MvpFragmentNotImplementedException
-            extends RuntimeException {
-        public MvpFragmentNotImplementedException() {
-            super("The MvpFragment must implement a View. This is required by the presenter.");
+    public static class MvpActivityNotImplementedException extends RuntimeException {
+        public MvpActivityNotImplementedException() {
+            super("The MvpActivity must implement a View. This is required by the presenter.");
         }
     }
 }

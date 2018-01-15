@@ -16,21 +16,20 @@
 
 package com.gigigoandroidmx.people.presentation.ui.fragment;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.util.Log;
 import android.widget.Toast;
 
-import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.common.MvpBindingFragment;
 import com.gigigoandroidmx.people.common.net.ServiceClient;
 import com.gigigoandroidmx.people.common.net.ServiceClientFactory;
 import com.gigigoandroidmx.people.common.recyclerext.EndlessScrollListener;
-import com.gigigoandroidmx.people.common.recyclerext.RecyclerExtensions;
 import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.repository.UserRepository;
 import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
@@ -57,6 +56,7 @@ public class ListUsersFragment
 
     private static final int PAGE = 1;
     private static final int PER_PAGE = 10;
+    public static final String PAGE_NUMBER_ARG = "page_number_arg";
 
     @BindView(R.id.swipe_refresh_layout_list_users)
     SwipeRefreshLayout refreshLayoutListUsers;
@@ -66,12 +66,28 @@ public class ListUsersFragment
 
     private boolean isRefreshing;
     private ListUsersAdapter adapter;
+    private int pageNumber;
+
+    public static ListUsersFragment newInstance(int pageNumber) {
+
+        Bundle args = new Bundle();
+        args.putInt(PAGE_NUMBER_ARG, pageNumber);
+        ListUsersFragment fragment = new ListUsersFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     //region BaseFragment members
 
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_list_users;
+    }
+
+    @Override
+    protected void onRestoreExtras(Bundle arguments) {
+        super.onRestoreExtras(arguments);
+        pageNumber = arguments.getInt(PAGE_NUMBER_ARG);
     }
 
     @Override
@@ -101,10 +117,12 @@ public class ListUsersFragment
             }
 
             @Override
-            public void onHide() { }
+            public void onHide() {
+            }
 
             @Override
-            public void onShow() { }
+            public void onShow() {
+            }
         });
     }
 
@@ -119,8 +137,9 @@ public class ListUsersFragment
 
     @Override
     public void onFetchPeopleSuccess(List<UserViewModel> userViewModels) {
+        Log.i("ListUsersFragment", "onFetchPeopleSuccess in page " + pageNumber);
         onRefreshCompleted();
-        if(adapter.getItemCount() == 0) {
+        if (adapter.getItemCount() == 0) {
             adapter.set(userViewModels);
         } else {
             adapter.addRange(userViewModels);
@@ -164,7 +183,7 @@ public class ListUsersFragment
     //endregion
 
     private void onRefreshCompleted() {
-        if(isRefreshing) {
+        if (isRefreshing) {
             isRefreshing = false;
         }
     }

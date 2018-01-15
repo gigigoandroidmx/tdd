@@ -17,16 +17,82 @@
 
 package com.gigigoandroidmx.people.presentation.ui.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 
 import com.gigigoandroidmx.people.R;
+import com.gigigoandroidmx.people.common.ExampleBaseActivity;
+import com.gigigoandroidmx.people.presentation.ui.adapter.viewpager.HomePagerAdapter;
+import com.gigigoandroidmx.people.presentation.ui.fragment.ListUsersFragment;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+
+public class MainActivity extends ExampleBaseActivity {
+
+    // region Constants
+    // endregion Constants
+
+    // region UI Components
+
+    @BindView(R.id.viewpager_sections)
+    ViewPager sectionsViewPager;
+
+    // endregion UI Components
+
+    // region Members
+    private HomePagerAdapter homePagerAdapter;
+    // endregion Members
+
+    // region Activity Lifecycle
+    // endregion Activity Lifecycle
+
+    // region ExampleBaseActivity Methods
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
+
+    @Override
+    protected void onRestoreExtras(Bundle arguments) {
+        super.onRestoreExtras(arguments);
+    }
+
+    @Override
+    protected void onInitializeMembers() {
+        homePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+    }
+
+    @Override
+    protected void onInitializeUIComponents() {
+        sectionsViewPager.setAdapter(homePagerAdapter);
+        homePagerAdapter.setFragments(createFragmentPages(4));
+    }
+
+    // endregion ExampleBaseActivity Methods
+
+    // region Interface Implementations
+    // endregion Interface Implementations
+
+    // region ButterKnife View Events
+    // endregion ButterKnife View Events
+
+    // region Public Methods
+    // endregion Public Methods
+
+    // region Private Methods
+    private List<Fragment> createFragmentPages(int number) {
+        List<Fragment> fragments = new ArrayList<>();
+
+        for (int index = 0; index < number; index++) {
+            fragments.add(ListUsersFragment.newInstance(index + 1));
+        }
+
+        return fragments;
+    }
+    // endregion Private Methods
 }
