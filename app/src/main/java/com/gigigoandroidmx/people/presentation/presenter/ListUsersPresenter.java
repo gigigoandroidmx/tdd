@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 13, 2017
+ * @author JG - December 13, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
@@ -56,7 +56,7 @@ public class ListUsersPresenter
     public void destroy() {
         super.destroy();
 
-        if(null != getListUsersUseCase) getListUsersUseCase.dispose();
+        getListUsersUseCase.dispose();
     }
 
     private final class UserListObserver
@@ -84,7 +84,7 @@ public class ListUsersPresenter
             if(!isViewAttached()) return;
 
             if(null != users && !users.isEmpty()) {
-                getView().onFetchPeopleSuccess(userViewModelMapper.map(users));
+                getView().onFetchPeopleSuccess(userViewModelMapper.transform(users));
             } else {
                 getView().onEmptyResult();
             }

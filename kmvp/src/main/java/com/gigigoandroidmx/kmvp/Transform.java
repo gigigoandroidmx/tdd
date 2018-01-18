@@ -22,31 +22,31 @@ import java.util.List;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 19, 2017
+ * @author JG - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
-public abstract class Mapper<T1, T2> {
-    public abstract T2 map(T1 value);
+public abstract class Transform<T1, T2> {
+    public abstract T2 transform(T1 value);
 
-    public abstract T1 reverseMap(T2 value);
+    public abstract T1 transformMap(T2 value);
 
-    public List<T2> map(List<T1> values) {
+    public List<T2> transform(List<T1> values) {
         if(null == values || values.isEmpty()) return null;
 
         List<T2> returnValues = new ArrayList<>(values.size());
         for (T1 value : values) {
-            returnValues.add(map(value));
+            returnValues.add(transform(value));
         }
         return returnValues;
     }
 
-    public List<T1> reverseMap(List<T2> values) {
+    public List<T1> transformMap(List<T2> values) {
         if(null == values || values.isEmpty()) return null;
 
         List<T1> returnValues = new ArrayList<>(values.size());
         for (T2 value : values) {
-            returnValues.add(reverseMap(value));
+            returnValues.add(transformMap(value));
         }
         return returnValues;
     }

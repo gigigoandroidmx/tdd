@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Gigigo Android Development Team México
+ * Copyright (c) 2018 Gigigo Android Development Team México
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-package com.gigigoandroidmx.kmvp;
+package com.gigigoandroidmx.people.common.sharedpreferences;
+
+import java.lang.reflect.Type;
 
 /**
- * Defines ...
- *
- * @author JG - December 13, 2017
+ * @author JG - January 15, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public interface Presenter<V extends View> {
-
-    void attachView(V view);
-
-    void detachView();
-
-    void resume();
-
-    void pause();
-
-    void destroy();
-
-    void handleError(Throwable exception);
+public interface Parser {
+    <T> String serialize(T data);
+    <T> String serialize(T data, Type sourceType);
+    <T> T deserialize(String json, Class<T> typeClass);
+    <T> T deserialize(String json, Type type);
 }

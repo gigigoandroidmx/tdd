@@ -21,7 +21,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 19, 2017
+ * @author JG - December 19, 2017
  * @version 0.0.1
  * @since 0.0.1
  */

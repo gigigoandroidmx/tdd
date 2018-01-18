@@ -16,22 +16,22 @@
 
 package com.gigigoandroidmx.people.data.repository.mapper;
 
-import com.gigigoandroidmx.kmvp.Mapper;
+import com.gigigoandroidmx.kmvp.Transform;
 import com.gigigoandroidmx.people.data.entity.UserEntity;
 import com.gigigoandroidmx.people.domain.model.User;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 04, 2018
+ * @author JG - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
-public class UserEntityToUserMapper
-        extends Mapper<UserEntity, User> {
+public class UserEntityToUserTransform
+        extends Transform<UserEntity, User> {
 
     @Override
-    public User map(UserEntity value) {
+    public User transform(UserEntity value) {
         if(null ==  value) return null;
 
         User model = new User();
@@ -43,7 +43,7 @@ public class UserEntityToUserMapper
     }
 
     @Override
-    public UserEntity reverseMap(User value) {
+    public UserEntity transformMap(User value) {
         throw new UnsupportedOperationException();
     }
 }

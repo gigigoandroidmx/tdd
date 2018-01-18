@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 29, 2017
+ * @author JG - December 29, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
@@ -40,6 +40,7 @@ public abstract class RecyclerAdapter<T>
 
     @Override
     public void onBindViewHolder(ViewHolderAdapter<T> holder, int position) {
+        int c = getItemCount();
         if(!this.isEmpty()) {
             holder.onBindViewHolder(this.itemsSource.get(position));
         }

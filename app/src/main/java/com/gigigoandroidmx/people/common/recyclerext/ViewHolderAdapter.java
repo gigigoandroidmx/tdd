@@ -23,7 +23,7 @@ import android.view.View;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 29, 2017
+ * @author JG - December 29, 2017
  * @version 0.0.1
  * @since 0.0.1
  */

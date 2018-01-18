@@ -19,7 +19,7 @@ package com.gigigoandroidmx.people.presentation.model;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 04, 2018
+ * @author JG - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */

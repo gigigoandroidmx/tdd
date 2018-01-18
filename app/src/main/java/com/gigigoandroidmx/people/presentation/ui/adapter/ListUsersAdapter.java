@@ -21,21 +21,22 @@ import android.view.ViewGroup;
 
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.common.recyclerext.RecyclerAdapter;
+import com.gigigoandroidmx.people.common.recyclerext.RecyclerHeaderFooterAdapter;
 import com.gigigoandroidmx.people.common.recyclerext.ViewHolderAdapter;
 import com.gigigoandroidmx.people.presentation.model.UserViewModel;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 05, 2018
+ * @author JG - January 05, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
 public class ListUsersAdapter
-        extends RecyclerAdapter<UserViewModel> {
+        extends RecyclerHeaderFooterAdapter<UserViewModel, ViewHolderAdapter<UserViewModel>> {
 
     @Override
-    public ViewHolderAdapter<UserViewModel> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolderAdapter<UserViewModel> onCreateViewHolderHeaderFooter(ViewGroup parent, int viewType) {
         View view = getView(parent, R.layout.item_user);
         ListUsersViewHolder viewHolder = new ListUsersViewHolder(view);
         return viewHolder;

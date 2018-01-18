@@ -16,9 +16,6 @@
 
 package com.gigigoandroidmx.people.common.net;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -26,7 +23,7 @@ import retrofit2.Retrofit;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 28, 2017
+ * @author JG - December 28, 2017
  * @version 0.0.1
  * @since 0.0.1
  */

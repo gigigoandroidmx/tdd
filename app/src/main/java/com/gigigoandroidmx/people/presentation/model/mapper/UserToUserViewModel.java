@@ -16,21 +16,21 @@
 
 package com.gigigoandroidmx.people.presentation.model.mapper;
 
-import com.gigigoandroidmx.kmvp.Mapper;
+import com.gigigoandroidmx.kmvp.Transform;
 import com.gigigoandroidmx.people.domain.model.User;
 import com.gigigoandroidmx.people.presentation.model.UserViewModel;
 
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 04, 2018
+ * @author JG - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
 public class UserToUserViewModel
-        extends Mapper<User, UserViewModel> {
+        extends Transform<User, UserViewModel> {
     @Override
-    public UserViewModel map(User value) {
+    public UserViewModel transform(User value) {
         if(null ==  value) return null;
 
         UserViewModel model = new UserViewModel();
@@ -42,7 +42,7 @@ public class UserToUserViewModel
     }
 
     @Override
-    public User reverseMap(UserViewModel value) {
+    public User transformMap(UserViewModel value) {
         throw new UnsupportedOperationException();
     }
 }

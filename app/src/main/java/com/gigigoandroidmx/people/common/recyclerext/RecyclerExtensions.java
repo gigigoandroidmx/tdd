@@ -25,7 +25,7 @@ import android.view.animation.LayoutAnimationController;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 10, 2018
+ * @author JG - January 10, 2018
  * @version 0.0.1
  * @since 0.0.1
  */

@@ -17,11 +17,13 @@
 package com.gigigoandroidmx.people.presentation.ui;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.gigigoandroidmx.people.BuildConfig;
 import com.gigigoandroidmx.people.common.net.Connectivity;
 import com.gigigoandroidmx.people.common.net.RequestInterceptor;
 import com.gigigoandroidmx.people.common.net.ServiceClient;
+import com.gigigoandroidmx.people.common.sharedpreferences.SharedPreferencesExtensions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ihsanbal.logging.Level;
@@ -38,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - January 04, 2018
+ * @author JG - January 04, 2018
  * @version 0.0.1
  * @since 0.0.1
  */
@@ -48,6 +50,13 @@ public class RootApp
     @Override
     public void onCreate() {
         super.onCreate();
+
+        SharedPreferencesExtensions
+                .builder(getApplicationContext())
+                .loggable(BuildConfig.DEBUG)
+                .setName("TestApp")
+                .setMode(Context.MODE_PRIVATE)
+                .build();
 
         initializeServiceClient();
     }
@@ -79,6 +88,7 @@ public class RootApp
 
         ServiceClient.builder(client)
                 //.addEndpoint(BuildConfig.HOST)
+                .loggable(BuildConfig.DEBUG)
                 .addEndpoint("https://reqres.in")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

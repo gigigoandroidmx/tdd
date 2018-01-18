@@ -29,7 +29,7 @@ import retrofit2.Converter;
 /**
  * Defines ...
  *
- * @author Juan Godinez Vera - December 28, 2017
+ * @author JG - December 28, 2017
  * @version 0.0.1
  * @since 0.0.1
  */
@@ -37,6 +37,7 @@ public class ServiceClient {
     private final List<String> endpoints;
     private final List<Converter.Factory> converterFactories;
     private final List<CallAdapter.Factory> adapterFactories;
+    private boolean isDebug;
     private OkHttpClient client;
 
     private static volatile ServiceClient defaultInstance;
@@ -121,11 +122,16 @@ public class ServiceClient {
         private final List<Converter.Factory> converterFactories = new ArrayList<>();
         private final List<CallAdapter.Factory> adapterFactories = new ArrayList<>();
 
+        private boolean isDebug;
         private final OkHttpClient client;
 
         ServiceClientBuilder(OkHttpClient client) {
-
             this.client = client;
+        }
+
+        public ServiceClientBuilder loggable(boolean isDebug) {
+            this.isDebug = isDebug;
+            return this;
         }
 
         public ServiceClientBuilder addEndpoint(String endpoint) {
@@ -156,7 +162,7 @@ public class ServiceClient {
         public static class ServiceClientException
                 extends RuntimeException {
             public ServiceClientException() {
-                super("Default instance already exists.");
+                super("Default service client instance already exists.");
             }
         }
     }

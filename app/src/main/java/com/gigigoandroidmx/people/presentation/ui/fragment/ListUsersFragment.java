@@ -21,19 +21,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
-import com.gigigoandroidmx.kmvp.MvpFragment;
 import com.gigigoandroidmx.people.R;
 import com.gigigoandroidmx.people.common.MvpBindingFragment;
 import com.gigigoandroidmx.people.common.net.ServiceClient;
 import com.gigigoandroidmx.people.common.net.ServiceClientFactory;
 import com.gigigoandroidmx.people.common.recyclerext.EndlessScrollListener;
-import com.gigigoandroidmx.people.common.recyclerext.RecyclerExtensions;
+import com.gigigoandroidmx.people.common.sharedpreferences.SharedPreferencesExtensions;
 import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.repository.UserRepository;
-import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserMapper;
+import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserTransform;
 import com.gigigoandroidmx.people.domain.usecase.GetListUsersUseCase;
 import com.gigigoandroidmx.people.presentation.model.UserViewModel;
 import com.gigigoandroidmx.people.presentation.model.mapper.UserToUserViewModel;
@@ -86,6 +84,16 @@ public class ListUsersFragment
 
     @Override
     protected void onInitializeUIComponents() {
+        SharedPreferencesExtensions
+                .put("INIT",
+                        String.class,
+                        "Inicializado");
+
+        SharedPreferencesExtensions
+                .put("INIT2",
+                        Boolean.class,
+                        true);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL,
                 false);
@@ -105,6 +113,8 @@ public class ListUsersFragment
             @Override
             public void onShow() { }
         });
+
+        //recyclerViewListUsers = getView().findViewById(R.id.recycler_view_list_users);
     }
 
     //endregion
@@ -118,8 +128,32 @@ public class ListUsersFragment
 
     @Override
     public void onFetchPeopleSuccess(List<UserViewModel> userViewModels) {
+        String init = SharedPreferencesExtensions
+                    .get("INIT",
+                            String.class);
+
+        boolean init2 = SharedPreferencesExtensions
+                    .get("INIT2",
+                            Boolean.class,
+                            false);
+
+
+        boolean saved = SharedPreferencesExtensions.put("LISTA", List.class, userViewModels);
+
+        if(saved) {
+            List<UserViewModel> userViewModelsRecover = SharedPreferencesExtensions.get("LISTA",
+                    List.class, null);
+
+            if(userViewModelsRecover != null) {
+
+            }
+        }
+
+        adapter.setHeaderView(recyclerViewListUsers, R.layout.template_item);
+        adapter.setFooterView(recyclerViewListUsers, R.layout.template_item);
+
         onRefreshCompleted();
-        if(adapter.getItemCount() == 0) {
+        if(adapter.isEmpty()) {
             adapter.set(userViewModels);
         } else {
             adapter.addRange(userViewModels);
@@ -147,7 +181,7 @@ public class ListUsersFragment
     @Override
     protected ListUsersPresenter createPresenter() {
         RestApi api = ServiceClientFactory.createService(ServiceClient.getDefault(), RestApi.class);
-        UserRepository repository = new UserRepository(api, new UserEntityToUserMapper());
+        UserRepository repository = new UserRepository(api, new UserEntityToUserTransform());
 
         GetListUsersUseCase getListUsersUseCase = new GetListUsersUseCase(repository,
                 Schedulers.io(),
