@@ -22,10 +22,13 @@ import com.gigigoandroidmx.kmvp.BasePresenter;
 import com.gigigoandroidmx.kmvp.UseCaseObserver;
 import com.gigigoandroidmx.people.domain.model.User;
 import com.gigigoandroidmx.people.domain.usecase.GetListUsersUseCase;
+import com.gigigoandroidmx.people.domain.usecase.LoginUseCase;
 import com.gigigoandroidmx.people.presentation.model.mapper.UserToUserViewModel;
 import com.gigigoandroidmx.people.presentation.presenter.view.ListUsersView;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 /**
  * Defines ...
@@ -39,11 +42,14 @@ public class ListUsersPresenter
 
     private final GetListUsersUseCase getListUsersUseCase;
     private final UserToUserViewModel userViewModelMapper;
+    private final LoginUseCase loginUseCase;
 
     public ListUsersPresenter(@NonNull GetListUsersUseCase getListUsersUseCase,
-                              @NonNull UserToUserViewModel userViewModelMapper) {
+                              @NonNull UserToUserViewModel userViewModelMapper,
+                              @NonNull LoginUseCase loginUseCase) {
         this.getListUsersUseCase = getListUsersUseCase;
         this.userViewModelMapper = userViewModelMapper;
+        this.loginUseCase = loginUseCase;
     }
 
     public void getUsers(int page, int perPage) {
@@ -51,6 +57,10 @@ public class ListUsersPresenter
         getListUsersUseCase.execute(new UserListObserver(), params);
     }
 
+    public void login(String email) {
+        LoginUseCase.Params params = LoginUseCase.Params.withEmail(email);
+        loginUseCase.execute(new LoginObserver(), params);
+    }
 
     @Override
     public void destroy() {
@@ -64,14 +74,14 @@ public class ListUsersPresenter
 
         @Override
         public void onComplete() {
-            if(!isViewAttached()) return;
+            if (!isViewAttached()) return;
 
             getView().showProgress(false);
         }
 
         @Override
         public void onError(Throwable e) {
-            if(!isViewAttached()) return;
+            if (!isViewAttached()) return;
 
             getView().showProgress(false);
             getView().showError(e);
@@ -81,13 +91,39 @@ public class ListUsersPresenter
         public void onNext(List<User> users) {
             super.onNext(users);
 
-            if(!isViewAttached()) return;
+            if (!isViewAttached()) return;
 
             if(null != users && !users.isEmpty()) {
                 getView().onFetchPeopleSuccess(userViewModelMapper.transform(users));
             } else {
                 getView().onEmptyResult();
             }
+        }
+    }
+
+    private final class LoginObserver extends UseCaseObserver<ResponseBody> {
+
+        @Override
+        public void onComplete() {
+            super.onComplete();
+            if (!isViewAttached()) return;
+
+            getView().showProgress(false);
+        }
+
+        @Override
+        public void onNext(ResponseBody responseBody) {
+            super.onNext(responseBody);
+            if (!isViewAttached()) return;
+
+            getView().onEmptyResult();
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            super.onError(e);
+            if (!isViewAttached()) return;
+            getView().showError(e);
         }
     }
 }

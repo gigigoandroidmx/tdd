@@ -21,7 +21,10 @@ import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 /**
@@ -33,5 +36,11 @@ import retrofit2.http.QueryMap;
  */
 public interface RestApi {
     @GET("/api/users")
-    Observable<ListUsersResponse> getListUsers(@QueryMap(encoded=true) Map<String, String> options);
+    Observable<ListUsersResponse> getListUsers(@QueryMap(encoded = true) Map<String, String> options);
+
+    @POST("/api/login")
+    Observable<ResponseBody> login(@Body Map<String, String> params);
+
+    @GET("/api/users/23")
+    Observable<ResponseBody> singleUserNotFound();
 }

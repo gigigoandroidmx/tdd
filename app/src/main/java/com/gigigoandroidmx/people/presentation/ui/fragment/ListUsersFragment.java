@@ -33,6 +33,7 @@ import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.repository.UserRepository;
 import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserTransform;
 import com.gigigoandroidmx.people.domain.usecase.GetListUsersUseCase;
+import com.gigigoandroidmx.people.domain.usecase.LoginUseCase;
 import com.gigigoandroidmx.people.presentation.model.UserViewModel;
 import com.gigigoandroidmx.people.presentation.model.mapper.UserToUserViewModel;
 import com.gigigoandroidmx.people.presentation.presenter.ListUsersPresenter;
@@ -187,7 +188,11 @@ public class ListUsersFragment
                 Schedulers.io(),
                 AndroidSchedulers.mainThread());
         UserToUserViewModel userViewModelMapper = new UserToUserViewModel();
-        return new ListUsersPresenter(getListUsersUseCase, userViewModelMapper);
+
+        LoginUseCase loginUseCase = new LoginUseCase(
+                repository, Schedulers.io(), AndroidSchedulers.mainThread());
+
+        return new ListUsersPresenter(getListUsersUseCase, userViewModelMapper, loginUseCase);
     }
 
     //endregion

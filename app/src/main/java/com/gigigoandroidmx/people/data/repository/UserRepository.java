@@ -16,6 +16,7 @@
 
 package com.gigigoandroidmx.people.data.repository;
 
+import com.gigigoandroidmx.people.common.net.error.RxErrorHandlerFunction;
 import com.gigigoandroidmx.people.data.RestApi;
 import com.gigigoandroidmx.people.data.entity.ListUsersResponse;
 import com.gigigoandroidmx.people.data.repository.mapper.UserEntityToUserTransform;
@@ -23,12 +24,15 @@ import com.gigigoandroidmx.people.domain.model.User;
 import com.gigigoandroidmx.people.domain.repository.ListUsersRepository;
 
 import java.util.ArrayList;
+import com.gigigoandroidmx.people.data.entity.SimpleResponseError;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
+import okhttp3.ResponseBody;
 
 /**
  * Defines ...
@@ -55,7 +59,7 @@ public class UserRepository
         data.put("page", String.valueOf(page));
         data.put("per_page", String.valueOf(perPage));
 
-        final Observable<ListUsersResponse> response = api.getListUsers(data);
+        Observable<ListUsersResponse> response = api.getListUsers(data);
 
         return response.map(new Function<ListUsersResponse, List<User>>() {
             @Override
@@ -69,7 +73,7 @@ public class UserRepository
         }).onErrorReturn(new Function<Throwable, List<User>>() {
             @Override
             public List<User> apply(Throwable throwable) throws Exception {
-                return null;
+                return new ArrayList<>();
             }
         });
 
@@ -100,6 +104,10 @@ public class UserRepository
             public List<User> apply(ListUsersResponse listUsersResponse) throws Exception {
                 if(null != listUsersResponse && listUsersResponse.hasData()) {
                     return userMapper.transform(listUsersResponse.getData());
+=======
+                if (null != listUsersResponse && listUsersResponse.hasData()) {
+                    return userMapper.map(listUsersResponse.getData());
+>>>>>>> 044bc16ba37a82ed4aa339c66c33dcdb5d4646bc
                 } else {
                     return null;
                 }
@@ -117,5 +125,17 @@ public class UserRepository
 
 
         return response;
+    }
+
+    @Override
+    public Observable<ResponseBody> login(String email) {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+
+        /*return (Observable<ResponseBody>) api.login(params).onErrorResumeNext(
+                new RxErrorHandlerFunction(SimpleResponseError.class));*/
+
+        return (Observable<ResponseBody>) api.singleUserNotFound().onErrorResumeNext(
+                new RxErrorHandlerFunction(SimpleResponseError.class));
     }
 }
