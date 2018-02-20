@@ -32,6 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 
 public class MainActivity extends ExampleBaseActivity {
+    public static final int PAGES = 4;
 
     // region Constants
     // endregion Constants
@@ -70,7 +71,7 @@ public class MainActivity extends ExampleBaseActivity {
     @Override
     protected void onInitializeUIComponents() {
         sectionsViewPager.setAdapter(homePagerAdapter);
-        homePagerAdapter.setFragments(createFragmentPages(4));
+        homePagerAdapter.setFragments(createFragmentPages(PAGES));
     }
 
     // endregion ExampleBaseActivity Methods
